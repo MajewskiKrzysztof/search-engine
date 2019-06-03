@@ -18,10 +18,10 @@ class SearchEngine {
         var query = trim(queryInput);
         checkIfParametersAreValid(documents, query);
 
-        var documentWordsMap = documentsToNameAndWordsMap(documents);
-        var documentTFIDFMap = documentTFIDFMap(documents, documentWordsMap, query);
+        var documentWordsMap = generateDocumentNameAndWordsMap(documents);
+        var documentTFIDFMap = generateDocumentTFIDFMap(documents, documentWordsMap, query);
 
-        return documentsContainingQuerySortedByTFIDF(documentTFIDFMap);
+        return getDocumentsWithQuerySortedByTFIDF(documentTFIDFMap);
     }
 
     private void checkIfParametersAreValid(List<String> documents, String query) {
@@ -32,29 +32,32 @@ class SearchEngine {
             throw new IllegalArgumentException("Query must not be blank");
     }
 
-    private Map<String, List<String>> documentsToNameAndWordsMap(List<String> documents) {
-        var documentNameMap = new HashMap<String, List<String>>();
+    private Map<String, List<String>> generateDocumentNameAndWordsMap(List<String> documents) {
+        var documentNameAndWordsMap = new HashMap<String, List<String>>();
         var counter = 1;
-        for (String document : documents) {
-            documentNameMap.put(format("document %d", counter), tokenizeDocument(document));
+        for (var document : documents) {
+            var documentName = format("document %d", counter);
+            var documentWords = tokenizeDocument(document);
+            documentNameAndWordsMap.put(documentName, documentWords);
             counter++;
         }
-        return documentNameMap;
+        return documentNameAndWordsMap;
     }
 
-    private Map<String, Double> documentTFIDFMap(List<String> documents, Map<String, List<String>> documentsMap,
-                                                 String query) {
+    private Map<String, Double> generateDocumentTFIDFMap(List<String> documents,
+                                                         Map<String, List<String>> documentNameWordsMap, String query) {
         var idf = TFIDFCalculator.idf(documents, query);
-        return documentsMap.entrySet()
-                           .stream()
-                           .collect(toMap(Map.Entry::getKey, entry -> documentTFIDF(entry.getValue(), query, idf)));
+        return documentNameWordsMap.entrySet()
+                                   .stream()
+                                   .collect(toMap(Map.Entry::getKey,
+                                                  entry -> documentTFIDF(entry.getValue(), query, idf)));
     }
 
     private double documentTFIDF(List<String> documentWords, String query, double idf) {
         return TFIDFCalculator.tfIdf(documentWords, query, idf);
     }
 
-    private List<String> documentsContainingQuerySortedByTFIDF(Map<String, Double> queryOccurrenceCount) {
+    private List<String> getDocumentsWithQuerySortedByTFIDF(Map<String, Double> queryOccurrenceCount) {
         return queryOccurrenceCount.entrySet()
                                    .stream()
                                    .filter(entry -> entry.getValue() > 0)

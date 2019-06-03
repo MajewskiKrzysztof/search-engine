@@ -12,7 +12,7 @@ repositories {
     mavenCentral()
 }
 
-apply plugin:'application'
+apply plugin: 'application'
 mainClassName = "com.majewski.searchengine.SearchEngineCLI"
 
 run {

@@ -19,7 +19,7 @@ class TFIDFCalculator {
      */
     static double idf(List<String> documents, String query) {
         var documentsWithQuery = 0d;
-        for (String document : documents) {
+        for (var document : documents) {
             var docHasWord = tokenizeDocument(document).stream().anyMatch(word -> word.equalsIgnoreCase(query));
             if (docHasWord)
                 documentsWithQuery++;
