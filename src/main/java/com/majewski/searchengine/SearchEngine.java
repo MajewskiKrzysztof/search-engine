@@ -1,11 +1,11 @@
 package com.majewski.searchengine;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.majewski.searchengine.DocumentTokenizer.tokenizeDocument;
 import static java.lang.String.format;
 import static java.util.Objects.isNull;
 import static java.util.stream.Collectors.toMap;
@@ -36,7 +36,7 @@ class SearchEngine {
         var documentNameMap = new HashMap<String, List<String>>();
         var counter = 1;
         for (String document : documents) {
-            documentNameMap.put(format("document %d", counter), Arrays.asList(document.split("\\s+")));
+            documentNameMap.put(format("document %d", counter), tokenizeDocument(document));
             counter++;
         }
         return documentNameMap;

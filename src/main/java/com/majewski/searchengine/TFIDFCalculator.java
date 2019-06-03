@@ -1,7 +1,8 @@
 package com.majewski.searchengine;
 
-import java.util.Arrays;
 import java.util.List;
+
+import static com.majewski.searchengine.DocumentTokenizer.tokenizeDocument;
 
 class TFIDFCalculator {
 
@@ -19,7 +20,7 @@ class TFIDFCalculator {
     static double idf(List<String> documents, String query) {
         var documentsWithQuery = 0d;
         for (String document : documents) {
-            var docHasWord = Arrays.stream(document.split("\\s+")).anyMatch(word -> word.equalsIgnoreCase(query));
+            var docHasWord = tokenizeDocument(document).stream().anyMatch(word -> word.equalsIgnoreCase(query));
             if (docHasWord)
                 documentsWithQuery++;
         }
