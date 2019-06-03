@@ -12,6 +12,13 @@ repositories {
     mavenCentral()
 }
 
+apply plugin:'application'
+mainClassName = "com.majewski.searchengine.SearchEngineCLI"
+
+run {
+    standardInput = System.in
+}
+
 dependencies {
     // groovy
     compile "org.codehaus.groovy:groovy-all:2.5.7"
