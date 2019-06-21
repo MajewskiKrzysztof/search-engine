@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.majewski.searchengine.DocumentTokenizer.tokenizeDocument;
+import static com.majewski.searchengine.DocumentTokenizer.tokenizeDocumentContent;
 import static java.lang.String.format;
 import static java.util.Objects.isNull;
 import static java.util.stream.Collectors.toMap;
@@ -14,7 +14,7 @@ import static org.apache.commons.lang3.StringUtils.trim;
 
 class SearchEngine {
 
-    List<String> search(List<String> documents, String queryInput) {
+    static List<String> search(List<Document> documents, String queryInput) {
         var query = trim(queryInput);
         checkIfParametersAreValid(documents, query);
 
@@ -24,27 +24,29 @@ class SearchEngine {
         return getDocumentsWithQuerySortedByTFIDF(documentTFIDFMap);
     }
 
-    private void checkIfParametersAreValid(List<String> documents, String query) {
-        if (isNull(documents))
+    private static void checkIfParametersAreValid(List<Document> documents, String query) {
+        if (isNull(documents)) {
             throw new IllegalArgumentException("Documents collection can't be null");
+        }
 
-        if (isBlank(query))
+        if (isBlank(query)) {
             throw new IllegalArgumentException("Query must not be blank");
+        }
     }
 
-    private Map<String, List<String>> generateDocumentNameAndWordsMap(List<String> documents) {
+    private static Map<String, List<String>> generateDocumentNameAndWordsMap(List<Document> documents) {
         var documentNameAndWordsMap = new HashMap<String, List<String>>();
         var counter = 1;
         for (var document : documents) {
             var documentName = format("document %d", counter);
-            var documentWords = tokenizeDocument(document);
+            var documentWords = tokenizeDocumentContent(document.getContent());
             documentNameAndWordsMap.put(documentName, documentWords);
             counter++;
         }
         return documentNameAndWordsMap;
     }
 
-    private Map<String, Double> generateDocumentTFIDFMap(List<String> documents,
+    private static Map<String, Double> generateDocumentTFIDFMap(List<Document> documents,
                                                          Map<String, List<String>> documentNameWordsMap, String query) {
         var idf = TFIDFCalculator.idf(documents, query);
         return documentNameWordsMap.entrySet()
@@ -53,11 +55,11 @@ class SearchEngine {
                                                   entry -> documentTFIDF(entry.getValue(), query, idf)));
     }
 
-    private double documentTFIDF(List<String> documentWords, String query, double idf) {
+    private static double documentTFIDF(List<String> documentWords, String query, double idf) {
         return TFIDFCalculator.tfIdf(documentWords, query, idf);
     }
 
-    private List<String> getDocumentsWithQuerySortedByTFIDF(Map<String, Double> queryOccurrenceCount) {
+    private static List<String> getDocumentsWithQuerySortedByTFIDF(Map<String, Double> queryOccurrenceCount) {
         return queryOccurrenceCount.entrySet()
                                    .stream()
                                    .filter(entry -> entry.getValue() > 0)

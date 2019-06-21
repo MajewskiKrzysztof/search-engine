@@ -7,11 +7,12 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 
 class DocumentTokenizer {
 
-    static List<String> tokenizeDocument(String document) {
-        if (isBlank(document))
+    static List<String> tokenizeDocumentContent(String documentContent) {
+        if (isBlank(documentContent)) {
             return List.of();
+        }
 
-        return Arrays.asList(document.split("\\s+"));
+        return Arrays.asList(documentContent.split("\\s+"));
     }
 
 }

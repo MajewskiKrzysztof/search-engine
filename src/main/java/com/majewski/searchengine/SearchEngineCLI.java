@@ -13,18 +13,17 @@ class SearchEngineCLI {
         System.out.println("How many documents you want to insert?");
         var documentsCount = Integer.parseInt(inputScanner.nextLine());
         System.out.println(format("Enter %d documents separated by new lines", documentsCount));
-        var documents = new ArrayList<String>();
+        var documents = new ArrayList<Document>();
         while (documentsCount > 0) {
-            var newDocument = inputScanner.nextLine();
-            documents.add(newDocument);
+            var newContent = inputScanner.nextLine();
+            documents.add(new Document(newContent));
             documentsCount--;
         }
 
         System.out.println("Enter the term you want to search for");
         var query = inputScanner.nextLine();
 
-        var searchEngine = new SearchEngine();
-        var documentsWithQuery = searchEngine.search(documents, query);
+        var documentsWithQuery = SearchEngine.search(documents, query);
         System.out.println();
         System.out.println(format("Query found in documents: %s", documentsWithQuery));
     }

@@ -2,13 +2,14 @@ package com.majewski.searchengine;
 
 import java.util.List;
 
-import static com.majewski.searchengine.DocumentTokenizer.tokenizeDocument;
+import static com.majewski.searchengine.DocumentTokenizer.tokenizeDocumentContent;
 
 class TFIDFCalculator {
 
     private static double tf(List<String> document, String query) {
-        if (document.isEmpty())
+        if (document.isEmpty()) {
             return 0;
+        }
 
         var queryCount = document.stream().filter(word -> word.equalsIgnoreCase(query)).count();
         return ((double) queryCount) / document.size();
@@ -17,10 +18,10 @@ class TFIDFCalculator {
     /**
      * Using logarithmically scaled frequency to avoid log(1) when all documents contain query.
      */
-    static double idf(List<String> documents, String query) {
+    static double idf(List<Document> documents, String query) {
         var documentsWithQuery = 0d;
         for (var document : documents) {
-            var docHasWord = tokenizeDocument(document).stream().anyMatch(word -> word.equalsIgnoreCase(query));
+            var docHasWord = tokenizeDocumentContent(document.getContent()).stream().anyMatch(word -> word.equalsIgnoreCase(query));
             if (docHasWord)
                 documentsWithQuery++;
         }

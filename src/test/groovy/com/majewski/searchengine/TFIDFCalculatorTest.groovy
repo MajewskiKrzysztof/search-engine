@@ -58,10 +58,10 @@ class TFIDFCalculatorTest extends Specification {
     def "idf() should return valid idf of documents with given query"() {
         given:
         def documents = [
-                "test string 1",
-                "not this time :p",
-                "JUST A TEST",
-                "aNoThEr string with test"
+                new Document("test string 1"),
+                new Document("not this time :p"),
+                new Document("JUST A TEST"),
+                new Document("aNoThEr string with test")
         ]
         def query = "test"
 
@@ -75,10 +75,10 @@ class TFIDFCalculatorTest extends Specification {
     def "idf() should return valid idf if all documents contain the query"() {
         given:
         def documents = [
-                "test string 1",
-                "perfect test it is",
-                "JUST A TEST",
-                "aNoThEr string with test"
+                new Document("test string 1"),
+                new Document("perfect test it is"),
+                new Document("JUST A TEST"),
+                new Document("aNoThEr string with test")
         ]
         def query = "test"
 
@@ -92,10 +92,10 @@ class TFIDFCalculatorTest extends Specification {
     def "idf() should return 0 if query is not found in any document"() {
         given:
         def documents = [
-                "test string 1",
-                "not this time :p",
-                "JUST A TEST",
-                "aNoThEr string with test"
+                new Document("test string 1"),
+                new Document("not this time :p"),
+                new Document("JUST A TEST"),
+                new Document("aNoThEr string with test")
         ]
         def query = "ninja"
 
@@ -121,10 +121,10 @@ class TFIDFCalculatorTest extends Specification {
     def "idf() should return 0 if query is null"() {
         given:
         def documents = [
-                "test string 1",
-                "not this time :p",
-                "JUST A TEST",
-                "aNoThEr string with test"
+                new Document("test string 1"),
+                new Document("not this time :p"),
+                new Document("JUST A TEST"),
+                new Document("aNoThEr string with test")
         ]
         def query = null
 

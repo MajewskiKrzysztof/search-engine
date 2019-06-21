@@ -10,12 +10,12 @@ class SearchEngineTest extends Specification {
     def "search() should return two document containing query word with case insensitivity"() {
         given:
         def documents = [
-                "This is not the string you are looking for!",
-                "more  then   one    space and few      tabs in     me and test",
-                "&^%@#(*&%@#*& sjfdsa d asdasd kaskd asbjkh gbkas d98^*&A% *12 1§2 1 2 13123 .. ////",
-                "I hAvE tEst inside ME",
-                "just a simple document",
-                ""
+                new Document("This is not the string you are looking for!"),
+                new Document("more  then   one    space and few      tabs in     me and test"),
+                new Document("&^%@#(*&%@#*& sjfdsa d asdasd kaskd asbjkh gbkas d98^*&A% *12 1§2 1 2 13123 .. ////"),
+                new Document("I hAvE tEst inside ME"),
+                new Document("just a simple document"),
+                new Document("")
         ]
         def query = "test"
 
@@ -31,12 +31,12 @@ class SearchEngineTest extends Specification {
     def "search() should return two document containing query word and ignore all spaces in query with case insensitivity"() {
         given:
         def documents = [
-                "This is not the string you are looking for!",
-                "more  then   one    space and few      tabs in     me and test",
-                "&^%@#(*&%@#*& sjfdsa d asdasd kaskd asbjkh gbkas d98^*&A% *12 1§2 1 2 13123 .. ////",
-                "I hAvE tEst inside ME",
-                "just a simple document",
-                ""
+                new Document("This is not the string you are looking for!"),
+                new Document("more  then   one    space and few      tabs in     me and test"),
+                new Document("&^%@#(*&%@#*& sjfdsa d asdasd kaskd asbjkh gbkas d98^*&A% *12 1§2 1 2 13123 .. ////"),
+                new Document("I hAvE tEst inside ME"),
+                new Document("just a simple document"),
+                new Document("")
         ]
         def query = "   test "
 
@@ -52,13 +52,13 @@ class SearchEngineTest extends Specification {
     def "search() should return three documents containing 'test' word ordered by query word occurrence with case insensitivity"() {
         given:
         def documents = [
-                "This is not the string you are looking for!",
-                "just a simple test TEST",
-                "&^%@#(*&%@#*& sjfdsa d asdasd kaskd asbjkh gbkas d98^*&A% *12 1§2 1 2 13123 .. ////",
-                "I hAvE tEst inside ME",
-                "just a simple document",
-                "test test test test",
-                ""
+                new Document("This is not the string you are looking for!"),
+                new Document("just a simple test TEST"),
+                new Document("&^%@#(*&%@#*& sjfdsa d asdasd kaskd asbjkh gbkas d98^*&A% *12 1§2 1 2 13123 .. ////"),
+                new Document("I hAvE tEst inside ME"),
+                new Document("just a simple document"),
+                new Document("test test test test"),
+                new Document("")
         ]
         def query = "test"
 
@@ -75,12 +75,12 @@ class SearchEngineTest extends Specification {
     def "search() should return empty list if query word is not found in any document"() {
         given:
         def documents = [
-                "This is not the string you are looking for!",
-                "more  then   one    space and few      tabs in     me",
-                "&^%@#(*&%@#*& sjfdsa d asdasd kaskd asbjkh gbkas d98^*&A% *12 1§2 1 2 13123 .. ////",
-                "I hAvE tExT inside ME",
-                "just a simple document",
-                ""
+                new Document("This is not the string you are looking for!"),
+                new Document("more  then   one    space and few      tabs in     me"),
+                new Document("&^%@#(*&%@#*& sjfdsa d asdasd kaskd asbjkh gbkas d98^*&A% *12 1§2 1 2 13123 .. ////"),
+                new Document("I hAvE tExT inside ME"),
+                new Document("just a simple document"),
+                new Document("")
         ]
         def query = "test"
 
